@@ -1,5 +1,3 @@
-# -- coding: utf-8 --
-
 import pygame
 from sys import exit
 from pygame.locals import *
@@ -69,7 +67,7 @@ levels = 5
 score_needed_per_level = 260
 current_level = 1
 
-def show_level_transition(screen, current_level):
+def show_level_transition(screen):
     font = pygame.font.Font(None, 48)
     text = font.render('¡Pasaste al siguiente nivel!', True, (255, 255, 255))
     text_rect = text.get_rect()
@@ -77,6 +75,15 @@ def show_level_transition(screen, current_level):
     text_rect.centery = screen.get_rect().centery
     screen.blit(text, text_rect)
     pygame.display.update()
+    pygame.time.delay(5000)  # Pausa de 5 segundos
+
+    # Restablecer puntaje y nivel
+    global score, enemy_frequency
+    score = 0
+    enemy_frequency = 0
+
+    # Eliminar todos los enemigos del nivel actual
+    enemies1.empty()
 
 while running:
     clock.tick(60)
@@ -165,11 +172,10 @@ while running:
             player.moveRight()
 
     if score >= current_level * score_needed_per_level:
-        current_level += 1
-        show_level_transition(screen, current_level)
+        show_level_transition(screen)
 
     font = pygame.font.Font(None, 48)
-    text = font.render('Score: ' + str(score), True, (255, 0, 0))
+    text = font.render('Puntuación: ' + str(score), True, (38, 66, 90))
     text_rect = text.get_rect()
     text_rect.centerx = screen.get_rect().centerx
     text_rect.centery = screen.get_rect().centery + 24
